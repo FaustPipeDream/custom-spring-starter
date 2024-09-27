@@ -1,11 +1,9 @@
 package io.github.indexalice.customServiceStarter.config
 
 import com.ecwid.consul.v1.health.model.Check
-import lombok.extern.slf4j.Slf4j
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.cloud.client.ServiceInstance
-import org.springframework.cloud.client.discovery.DiscoveryClient
 import org.springframework.cloud.client.loadbalancer.DefaultRequestContext
 import org.springframework.cloud.client.loadbalancer.DefaultResponse
 import org.springframework.cloud.client.loadbalancer.EmptyResponse
