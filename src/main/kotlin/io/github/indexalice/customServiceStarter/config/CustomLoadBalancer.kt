@@ -44,7 +44,7 @@ class CustomLoadBalancer(
     }
 
     companion object {
-        const val GRAY_PREFIX: String = "Gray"
+        const val CANARY_SUFFIX: String = "canary"
     }
 
     fun getInstanceResponse(
@@ -67,7 +67,7 @@ class CustomLoadBalancer(
 
         //处理灰度转发
         if (isGray(httpHeaders)) {
-
+            return DefaultResponse(getGrayInstance(healthInstances))
         }
         //就近转发
         return DefaultResponse(getNearestInstance(healthInstances))
@@ -75,14 +75,15 @@ class CustomLoadBalancer(
 
     /**
      * 本实例是否需要转发至灰度实例
-     * 分为两种情况，本实例为灰度实例，或本实例收到了x-Gray为true的请求
+     * 分为两种情况，本实例为灰度实例，或本实例收到了x-canary为true的请求
      */
     private fun isGray(httpHeaders: HttpHeaders): Boolean {
-        val isGray = httpHeaders.getFirst("x-Gray")
+        val isGray = httpHeaders.getFirst("x-canary")
         if (StringUtils.hasText(isGray) && isGray.toBoolean()) {
             return true
         }
-        return springConfig.serviceName.endsWith(GRAY_PREFIX)
+        //用endsWith是防止一些服务名中包含了canary字段，而我们约定的instanceId结尾如果不包含canary则必定为host，不会出现误判
+        return springConfig.instanceId.endsWith(CANARY_SUFFIX)
     }
 
     /**
@@ -90,8 +91,25 @@ class CustomLoadBalancer(
      */
     private fun getNearestInstance(instances: List<ServiceInstance>): ServiceInstance {
         val location = customConfig.location
-        return instances.firstOrNull { serviceInstance: ServiceInstance ->
+        return instances.firstOrNull { serviceInstance ->
             serviceInstance.instanceId.contains(location)
-        }?: instances.random()
+        } ?: run {
+            val instance = instances.random()
+            log.warn("未找到就近实例，返回随机实例 location: ${location},service: ${instance.serviceId}")
+            instance
+        }
+    }
+
+    /**
+     * 查找灰度实例，如果未找到则返回就近实例
+     */
+    private fun getGrayInstance(instances: List<ServiceInstance>): ServiceInstance {
+        return instances.firstOrNull { serviceInstance ->
+            serviceInstance.instanceId.endsWith(CANARY_SUFFIX)
+        } ?: run {
+            var instance = getNearestInstance(instances)
+            log.warn("未找到灰度实例，返回就近实例 service: ${instance.serviceId}")
+            instance
+        }
     }
 }
