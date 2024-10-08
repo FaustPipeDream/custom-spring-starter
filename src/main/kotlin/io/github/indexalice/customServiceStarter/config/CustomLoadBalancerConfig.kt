@@ -26,7 +26,7 @@ class CustomLoadBalancerConfig(
     @Bean
     fun randomLoadBalancer(
         environment: Environment,
-        //todo 有可能无法获取吗？
+        //todo 为什么我在源码可以找到这个bean，却无法注入，实际运行时测试一下吧
        @Qualifier("loadBalancerClientFactory") loadBalancerClientFactory:LoadBalancerClientFactory
     ):ReactorLoadBalancer<ServiceInstance>{
         val name = environment.getProperty(LoadBalancerClientFactory.PROPERTY_NAME)
