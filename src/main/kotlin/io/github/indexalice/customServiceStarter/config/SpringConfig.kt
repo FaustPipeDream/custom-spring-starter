@@ -11,5 +11,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties
  */
 @ConfigurationProperties("spring.cloud.consul.discovery")
 class SpringConfig(
-    var instanceId : String
+    var instanceId : String,
+    var serviceName:String
 )
