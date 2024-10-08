@@ -1,6 +1,5 @@
 package io.github.indexalice.customServiceStarter.http
 
-import org.slf4j.LoggerFactory
 import org.springframework.http.HttpRequest
 import org.springframework.http.client.ClientHttpRequestExecution
 import org.springframework.http.client.ClientHttpRequestInterceptor

@@ -3,7 +3,6 @@ package io.github.indexalice.customServiceStarter.config
 import io.github.indexalice.customServiceStarter.http.RestTemplateInterceptor
 import io.github.indexalice.customServiceStarter.http.RestTemplateNoLogInterceptor
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClients
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
@@ -23,10 +22,7 @@ import org.springframework.web.client.RestTemplate
 //值得注意的是，我们的服务间调用统一使用feign，因此这里可以不设置
 //如果需要用rest template进行服务间调用，则需要配置，同时应该也需要对header进行配置
 //@LoadBalancerClients(defaultConfiguration = [CustomLoadBalancerConfig::class])
-class RestTemplateConfig(
-    val springConfig: SpringConfig,
-    val customConfig: CustomConfig
-) {
+class RestTemplateConfig {
     @Bean
     @Primary
     fun restTemplate() : RestTemplate{
