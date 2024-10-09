@@ -78,8 +78,8 @@ class CustomLoadBalancer(
      * 分为两种情况，本实例为灰度实例，或本实例收到了x-canary为true的请求
      */
     private fun isGray(httpHeaders: HttpHeaders): Boolean {
-        val isGray = httpHeaders.getFirst("x-canary")
-        if (StringUtils.hasText(isGray) && isGray.toBoolean()) {
+        val canary = httpHeaders.getFirst("x-canary")
+        if (StringUtils.hasText(canary) && canary.toBoolean()) {
             return true
         }
         //用endsWith是防止一些服务名中包含了canary字段，而我们约定的instanceId结尾如果不包含canary则必定为host，不会出现误判

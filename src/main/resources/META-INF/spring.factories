@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.github.indexalice.customServiceStarter.config.CustomLoadBalancerConfig,io.github.indexalice.customServiceStarter.config.FeignConfig,io.github.indexalice.customServiceStarter.config.RestTemplateConfig

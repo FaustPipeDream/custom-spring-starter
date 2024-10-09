@@ -30,22 +30,22 @@ object RestResponse {
 
     @JvmOverloads
     fun badRequest(data: Any = "", message: String): ResponseEntity<*> {
-        return buildResult(data, "", "", HttpStatus.BAD_REQUEST)
+        return buildResult(data, message, "", HttpStatus.BAD_REQUEST)
     }
 
     @JvmOverloads
     fun forbidden(data: Any = "", message: String): ResponseEntity<*> {
-        return buildResult(data, "", "", HttpStatus.FORBIDDEN)
+        return buildResult(data, message, "", HttpStatus.FORBIDDEN)
     }
 
     @JvmOverloads
     fun timeout(data: Any = "", message: String): ResponseEntity<*> {
-        return buildResult(data, "", "", HttpStatus.REQUEST_TIMEOUT)
+        return buildResult(data, message, "", HttpStatus.REQUEST_TIMEOUT)
     }
 
     @JvmOverloads
     fun tooManyRequest(data: Any = "", message: String): ResponseEntity<*> {
-        return buildResult(data, "", "", HttpStatus.TOO_MANY_REQUESTS)
+        return buildResult(data, message, "", HttpStatus.TOO_MANY_REQUESTS)
     }
 
     @JvmOverloads
@@ -86,7 +86,7 @@ object RestResponse {
             ret = if (code == HttpStatus.OK) {
                 om.writeValueAsString(data)
             } else {
-                if ("".equals(data)) {
+                if ("" == data) {
                     om.writeValueAsString(ErrorBean("", message, stack))
                 } else {
                     om.writeValueAsString(ErrorBean(data, message, stack))
