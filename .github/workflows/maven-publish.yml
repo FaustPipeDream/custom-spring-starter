@@ -4,11 +4,12 @@
 name: Maven Package
 
 on:
-  push:  # 推送时触发
-  pull_request:
+  release:
     types:
-      - closed  # PR 关闭时触发
-      -
+      - published
+  push: # 推送时触发
+    branches-ignore:
+      - main  # 排除 main 分支 仅作为发布快照版本
 jobs:
   build:
     runs-on: ubuntu-latest
