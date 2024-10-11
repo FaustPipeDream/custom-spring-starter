@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>io.github.indexalice</groupId>
 	<artifactId>custom-service-starter</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<name>custom-service-starter</name>
 	<description>Spring-boot微服务使用的公共库函数</description>
 	<properties>
