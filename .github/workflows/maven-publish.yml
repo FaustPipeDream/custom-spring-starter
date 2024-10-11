@@ -7,9 +7,9 @@ on:
   release:
     types:
       - published
-  push: # 推送时触发
-    branches-ignore:
-      - main  # 排除 main 分支 仅作为发布快照版本
+  push:
+    branches:
+      - 'snapshot/**'  # 仅当推送到以 "snapshot/" 开头的分支时触发
 jobs:
   build:
     runs-on: ubuntu-latest
