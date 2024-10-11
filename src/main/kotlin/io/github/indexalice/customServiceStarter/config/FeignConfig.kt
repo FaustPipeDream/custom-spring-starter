@@ -24,13 +24,13 @@ class FeignConfig (
         //设置灰度字段,如果本服务是灰度的，则设置
         //这是为了标志一些由后端服务自行发起的请求是否为灰度
         if(springConfig.instanceId.endsWith(CustomLoadBalancer.CANARY_SUFFIX)){
-            requestTemplate.header("x-canary","true")
+            requestTemplate.header(CustomLoadBalancer.Companion.CUSTOM_HEADER_CANARY,"true")
         }
         //对于无x-location的请求，则在调用链的第一个本地服务中新增这个header
         val attributes  = RequestContextHolder.getRequestAttributes() as ServletRequestAttributes
         val headers = attributes.request.headerNames.toList()
-       if("x-location" !in headers){
-           requestTemplate.header("x-location",customConfig.location)
+       if(CustomLoadBalancer.Companion.CUSTOM_HEADER_LOCATION !in headers){
+           requestTemplate.header(CustomLoadBalancer.Companion.CUSTOM_HEADER_LOCATION,customConfig.location)
        }
     }
 
